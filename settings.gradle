@@ -1,0 +1,11 @@
+include ':auth'
+
+include ':provider-twitter'
+include ':provider-google'
+include ':provider-facebook'
+
+include ':client-firebase'
+
+include ':app'
+
+rootProject.name = 'auth-root'

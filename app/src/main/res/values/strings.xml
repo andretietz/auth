@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Auth Application</string>
+    <string name="facebook_app_id">[YOUR-FACEBOOK-APP-ID]</string>
+    <string name="fb_login_protocol_scheme">fb[YOUR-FACEBOOK-APP-ID]</string>
+    <string name="twitter_app_key">[YOUR-TWITTER-APP-ID]</string>
+    <string name="twitter_app_secret">[YOUR-TWITTER-APP-SECRET]</string>
+</resources>
