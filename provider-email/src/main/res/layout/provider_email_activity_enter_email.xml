@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/rootView"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+                                             xmlns:app="http://schemas.android.com/apk/res-auto"
+                                             android:id="@+id/rootView"
+                                             android:layout_width="match_parent"
+                                             android:layout_height="match_parent">
 
     <android.support.design.widget.TextInputLayout
         android:id="@+id/tilEmail"
@@ -22,7 +21,7 @@
             android:id="@+id/textEmail"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:inputType="textEmailAddress" />
+            android:inputType="textEmailAddress"/>
     </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.TextInputLayout
@@ -35,13 +34,14 @@
         android:hint="@string/provider_email_enter_password_hint"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tilEmail">
+        app:layout_constraintTop_toBottomOf="@+id/tilEmail"
+        app:passwordToggleEnabled="true">
 
         <android.support.design.widget.TextInputEditText
             android:id="@+id/textPassword"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:inputType="textPassword" />
+            android:inputType="textPassword"/>
     </android.support.design.widget.TextInputLayout>
 
     <Button
@@ -52,7 +52,7 @@
         android:layout_marginTop="16dp"
         android:text="@string/provider_email_button_signin"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tilPassword" />
+        app:layout_constraintTop_toBottomOf="@+id/tilPassword"/>
 
     <Button
         android:id="@+id/buttonCancel"
@@ -62,5 +62,5 @@
         android:layout_marginTop="16dp"
         android:text="@string/provider_email_button_cancel"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tilPassword" />
+        app:layout_constraintTop_toBottomOf="@+id/tilPassword"/>
 </android.support.constraint.ConstraintLayout>
