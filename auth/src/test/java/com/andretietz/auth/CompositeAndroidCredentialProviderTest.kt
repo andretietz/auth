@@ -5,12 +5,12 @@ import org.mockito.Mockito
 import org.mockito.Mockito.*
 
 
-class CompositeAndroidAuthProviderTest {
+class CompositeAndroidCredentialProviderTest {
 
 
-    private val authProvider1 = Mockito.mock(AndroidAuthProvider::class.java)
-    private val authProvider2 = Mockito.mock(AuthProvider::class.java)
-    private val provider = CompositeAndroidAuthProvider(hashMapOf<String, AuthProvider>(
+    private val authProvider1 = Mockito.mock(AndroidCredentialProvider::class.java)
+    private val authProvider2 = Mockito.mock(CredentialProvider::class.java)
+    private val provider = CompositeAndroidCredentialProvider(hashMapOf<String, CredentialProvider>(
             "test" to authProvider1,
             "test2" to authProvider2)
     )
@@ -23,8 +23,8 @@ class CompositeAndroidAuthProviderTest {
     @Test
     fun testIfAuthenticateRunsWhenRightTypeAsArgument() {
         provider.authenticate("test")
-        verify(authProvider1, times(1)).authenticate()
-        verify(authProvider2, never()).authenticate()
+        verify(authProvider1, times(1)).requestCredential()
+        verify(authProvider2, never()).requestCredential()
     }
 
 

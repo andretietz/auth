@@ -1,6 +1,7 @@
-# AndroidAuthProvider: Google
-is an implementation of ```AndroidAuthProvider```. If you're using
-multiple ```AndroidAuthProvider``` I recommend using the ```CompositeAndroidAuthProvider```
+# AndroidCredentialProvider: Google
+is an implementation of ```AndroidCredentialProvider```. If you're using
+multiple ```AndroidCredentialProvider``` I recommend using the ```CompositeAndroidCredentialProvider```
+
 ## 1. Setup
 * Add the dependency
 ```gradle
@@ -23,7 +24,7 @@ apply plugin: 'com.google.gms.google-services'
 ## 2. Implementation
 Create an instance
 ```kotlin
-val googleProvider = GoogleAuthProvider(activity, "web-client-id") // R.string.default_web_client_id
+val googleProvider = GoogleCredentialProvider(activity, "web-client-id") // R.string.default_web_client_id
 ```
 and make sure you reach the onActivityResult call to the provider:
 ```kotlin
@@ -34,6 +35,6 @@ public override fun onActivityResult(requestCode: Int, resultCode: Int, data: In
 ```
 ## Ready to go
 ```kotlin
-googleProvider.authenticate()
+googleProvider.requestCredential()
     .subscribe{googleCredential -> ...}
 ```

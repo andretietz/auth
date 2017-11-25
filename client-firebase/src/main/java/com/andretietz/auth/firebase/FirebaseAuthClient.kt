@@ -7,6 +7,7 @@ import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
+import io.reactivex.Maybe
 import io.reactivex.Single
 import io.reactivex.SingleEmitter
 import java.util.concurrent.Executors
@@ -35,6 +36,16 @@ class FirebaseAuthClient<T>(private val userFactory: UserFactory<T>) : AuthClien
         return Single.create({ emitter ->
             handleTask(firebaseAuth.signInWithCredential(mapper.map(credential)), emitter)
         })
+    }
+
+    override fun isSignedIn(): Maybe<T> {
+        return Maybe.create { emitter ->
+            if (firebaseAuth.currentUser != null) {
+                emitter.onSuccess(userFactory.createUser(firebaseAuth.currentUser!!))
+            } else {
+                emitter.onComplete()
+            }
+        }
     }
 
     private fun handleTask(task: Task<AuthResult>, emitter: SingleEmitter<T>) {
