@@ -1,6 +1,6 @@
 # AndroidAuthProvider: Google
-is an implementation of ```AndroidAuthProvider```. If you're using
-multiple ```AndroidAuthProvider``` I recommend using the ```CompositeAndroidAuthProvider```
+is an implementation of ```AndroidCredentialProvider```. If you're using
+multiple ```AndroidCredentialProvider``` I recommend using the ```CompositeAndroidCredentialProvider```
 ## 1. Setup
 * Add the dependency
 ```gradle

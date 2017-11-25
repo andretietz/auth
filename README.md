@@ -10,7 +10,7 @@ app, without the need to care which  providers (email,oauthX providers, ...) you
 or which type of backend you are using later on.
 
 The main interfaces are
-* ```AuthProvider``` or ```AndroidAuthProvider``` which represents any kind of authentication using
+* ```CredentialProvider``` or ```AndroidCredentialProvider``` which represents any kind of authentication using
  a third party service such as google, facebook or similar. This Providers should be able to provide
  you an ```AuthCredential``` which you either use in app only or you authenticate with it against
  some backend using the ```AuthClient``` implementations.

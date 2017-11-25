@@ -1,6 +1,6 @@
-# AndroidAuthProvider: Twitter
-is an implementation of ```AndroidAuthProvider```. If you're using
-multiple ```AndroidAuthProvider``` I recommend using the ```CompositeAndroidAuthProvider```
+# AndroidCredentialProvider: Twitter
+is an implementation of ```AndroidCredentialProvider```. If you're using
+multiple ```AndroidCredentialProvider``` I recommend using the ```CompositeAndroidCredentialProvider```
 
 ## 1. Setup
 * Add the dependency:
@@ -14,7 +14,7 @@ implementation "com.andretietz.auth:provicer-twitter:X.Y.Z"
 ## 2. Implementation
 Create an instance
 ```kotlin
-val twitterProvider = TwitterAuthProvider(activity, "YOUR-API-KEY", "YOUR-API-SECRET")
+val twitterProvider = TwitterCredentialProvider(activity, "YOUR-API-KEY", "YOUR-API-SECRET")
 ```
 and make sure you reach the onActivityResult call to the provider:
 ```kotlin

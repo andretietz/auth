@@ -1,6 +1,6 @@
 # AndroidAuthProvider: Facebook
 is an implementation of ```AndroidAuthProvider```. If you're using
-multiple ```AndroidAuthProvider``` I recommend using the ```CompositeAndroidAuthProvider```
+multiple ```AndroidAuthProvider``` I recommend using the ```CompositeAndroidCredentialProvider```
 ## 1. Setup
 * Add the dependency
 ```gradle

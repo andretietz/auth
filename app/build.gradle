@@ -32,11 +32,13 @@ android {
 dependencies {
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
 
-    implementation project(':provider-google')
-    implementation project(':provider-facebook')
-    implementation project(':provider-twitter')
+    implementation project(':auth')
 
     firebaseImplementation project(':client-firebase')
+    firebaseImplementation project(':provider-google')
+    firebaseImplementation project(':provider-facebook')
+    firebaseImplementation project(':provider-twitter')
+    firebaseImplementation project(':provider-email')
 
     implementation "com.google.dagger:dagger:$daggerVersion"
     implementation "com.google.dagger:dagger-android-support:$daggerVersion"

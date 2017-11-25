@@ -2,7 +2,7 @@ package com.andretietz.auth.twitter
 
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
-import com.andretietz.auth.AndroidAuthProvider
+import com.andretietz.auth.AndroidCredentialProvider
 import com.andretietz.auth.AuthCredential
 import com.andretietz.auth.credentials.TwitterCredential
 import com.twitter.sdk.android.core.*
@@ -11,8 +11,8 @@ import io.reactivex.Maybe
 import io.reactivex.MaybeEmitter
 
 
-class TwitterAuthProvider(private val activity: AppCompatActivity, consumerKey: String, consumerSecret: String)
-    : AndroidAuthProvider {
+class TwitterCredentialProvider(private val activity: AppCompatActivity, consumerKey: String, consumerSecret: String)
+    : AndroidCredentialProvider {
 
     private val client: TwitterAuthClient
 

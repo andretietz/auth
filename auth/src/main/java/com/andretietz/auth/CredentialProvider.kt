@@ -3,7 +3,7 @@ package com.andretietz.auth
 import io.reactivex.Maybe
 import io.reactivex.annotations.CheckReturnValue
 
-interface AuthProvider {
+interface CredentialProvider {
     /**
      * @return a name for this auth provider. i.e. google or facebook
      */

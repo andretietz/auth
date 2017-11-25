@@ -2,7 +2,7 @@ package com.andretietz.auth.facebook
 
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
-import com.andretietz.auth.AndroidAuthProvider
+import com.andretietz.auth.AndroidCredentialProvider
 import com.andretietz.auth.AuthCredential
 import com.andretietz.auth.credentials.FacebookCredential
 import com.facebook.CallbackManager
@@ -12,7 +12,7 @@ import com.facebook.login.LoginResult
 import io.reactivex.Maybe
 
 
-class FacebookAuthProvider(private val activity: AppCompatActivity) : AndroidAuthProvider {
+class FacebookCredentialProvider(private val activity: AppCompatActivity) : AndroidCredentialProvider {
     private val callbackManager = CallbackManager.Factory.create()
     private val loginManager = LoginManager.getInstance()
 

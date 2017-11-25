@@ -1,5 +1,6 @@
 include ':auth'
 
+include ':provider-email'
 include ':provider-twitter'
 include ':provider-google'
 include ':provider-facebook'

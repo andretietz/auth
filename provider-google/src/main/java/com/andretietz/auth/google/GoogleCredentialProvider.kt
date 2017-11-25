@@ -2,7 +2,7 @@ package com.andretietz.auth.google
 
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
-import com.andretietz.auth.AndroidAuthProvider
+import com.andretietz.auth.AndroidCredentialProvider
 import com.andretietz.auth.AuthCredential
 import com.andretietz.auth.credentials.GoogleCredential
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -16,8 +16,8 @@ import com.google.android.gms.common.api.Scope
 import io.reactivex.Maybe
 import io.reactivex.MaybeEmitter
 
-class GoogleAuthProvider constructor(private val activity: AppCompatActivity, webClientId: String)
-    : AndroidAuthProvider {
+class GoogleCredentialProvider constructor(private val activity: AppCompatActivity, webClientId: String)
+    : AndroidCredentialProvider {
 
     companion object {
         const val GOOGLE_LOGIN_REQUEST_CODE = 0xC001

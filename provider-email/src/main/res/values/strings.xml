@@ -1,0 +1,6 @@
+<resources>
+    <string name="provider_email_enter_email_hint">E-Mail</string>
+    <string name="provider_email_enter_password_hint">Password</string>
+    <string name="provider_email_button_signin">Login</string>
+    <string name="provider_email_button_cancel">Cancel</string>
+</resources>

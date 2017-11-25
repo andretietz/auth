@@ -4,13 +4,11 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.view.View
+import android.widget.ArrayAdapter
 import com.andretietz.auth.AuthClient
 import com.andretietz.auth.AuthCredential
-import com.andretietz.auth.CompositeAndroidAuthProvider
-import com.andretietz.auth.credentials.EmailCredential
-import com.andretietz.auth.credentials.FacebookCredential
-import com.andretietz.auth.credentials.GoogleCredential
-import com.andretietz.auth.credentials.TwitterCredential
+import com.andretietz.auth.CredentialProvider
+import com.andretietz.auth.CompositeAndroidCredentialProvider
 import com.andretietz.auth.model.User
 import dagger.android.support.DaggerAppCompatActivity
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -23,20 +21,23 @@ import javax.inject.Inject
 class MainActivity : DaggerAppCompatActivity() {
 
     @Inject lateinit var client: AuthClient<User>
-    @Inject lateinit var provider: CompositeAndroidAuthProvider
+    @Inject lateinit var provider: CompositeAndroidCredentialProvider
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        buttonLoginEmail.setOnClickListener {
-            signIn(EmailCredential(textEmail.text.toString(), textPassword.text.toString()))
-        }
-        buttonLoginGoogle.setOnClickListener { signInWith(GoogleCredential.TYPE) }
-        buttonLoginFacebook.setOnClickListener { signInWith(FacebookCredential.TYPE) }
-        buttonLoginTwitter.setOnClickListener { signInWith(TwitterCredential.TYPE) }
+        spinnerProviders.adapter = ArrayAdapter<CredentialProvider>(this, android.R.layout.activity_list_item,
+                android.R.id.text1, ArrayList(provider.providers.values))
 
-        buttonLogout.setOnClickListener { signOut() }
+        buttonSignIn.isEnabled = false
+        client.isSignedIn()
+                .doOnComplete { buttonState(false) }
+                .subscribe { user ->
+                    Snackbar.make(rootView, "Welcome ${user.name}", Snackbar.LENGTH_LONG).show()
+                    buttonState(true)
+                }
+
     }
 
     private fun signInWith(providerType: String) {
@@ -47,6 +48,7 @@ class MainActivity : DaggerAppCompatActivity() {
 
     private fun signIn(credential: AuthCredential) {
         progressBar.visibility = View.VISIBLE
+        buttonSignIn.isEnabled = false
         client.signIn(credential)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -63,11 +65,17 @@ class MainActivity : DaggerAppCompatActivity() {
     }
 
     private fun buttonState(loggedIn: Boolean) {
-        buttonLogout.isEnabled = loggedIn
-        buttonLoginEmail.isEnabled = !loggedIn
-        buttonLoginGoogle.isEnabled = !loggedIn
-        buttonLoginFacebook.isEnabled = !loggedIn
-        buttonLoginTwitter.isEnabled = !loggedIn
+        buttonSignIn.text = if (loggedIn) "Logout" else "Login"
+        spinnerProviders.isEnabled = !loggedIn
+        buttonSignIn.isEnabled = true
+        if (loggedIn) {
+            buttonSignIn.setOnClickListener { signOut() }
+        } else {
+            buttonSignIn.setOnClickListener {
+                val selectedProvider = spinnerProviders.selectedItem as CredentialProvider
+                signInWith(selectedProvider.type())
+            }
+        }
     }
 
     private fun signOut() {
