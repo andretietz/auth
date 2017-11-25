@@ -16,7 +16,7 @@ class FacebookCredentialProvider(private val activity: AppCompatActivity) : Andr
     private val callbackManager = CallbackManager.Factory.create()
     private val loginManager = LoginManager.getInstance()
 
-    override fun authenticate(): Maybe<AuthCredential> {
+    override fun requestCredential(): Maybe<AuthCredential> {
         return Maybe.create<AuthCredential> { emitter ->
             loginManager.registerCallback(callbackManager, object : com.facebook.FacebookCallback<LoginResult> {
                 override fun onError(error: FacebookException) {

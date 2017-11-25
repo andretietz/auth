@@ -24,6 +24,7 @@ Go [here](auth/) for details or checkout the [demo-application](app/)
 
 ## 2. Ready-to-use Provider implementations
 These implementations are existing right now
+ * [provider-email - Provides Email credentials sign in](provider-email/)
  * [provider-google - Google Sign In](provider-google/)
  * [provider-facebook - Facebook Sign In](provider-facebook/)
  * [provider-twitter - Twitter Sign In](provider-twitter/)

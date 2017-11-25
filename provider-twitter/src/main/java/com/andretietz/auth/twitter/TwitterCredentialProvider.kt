@@ -26,7 +26,7 @@ class TwitterCredentialProvider(private val activity: AppCompatActivity, consume
         client = TwitterAuthClient()
     }
 
-    override fun authenticate(): Maybe<AuthCredential> {
+    override fun requestCredential(): Maybe<AuthCredential> {
         return Maybe.create<AuthCredential> { emitter -> resultEmitter = emitter }
                 .doOnSubscribe {
                     client.authorize(activity, object : Callback<TwitterSession>() {

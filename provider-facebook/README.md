@@ -1,6 +1,7 @@
-# AndroidAuthProvider: Facebook
-is an implementation of ```AndroidAuthProvider```. If you're using
-multiple ```AndroidAuthProvider``` I recommend using the ```CompositeAndroidCredentialProvider```
+# AndroidCredentialhProvider: Facebook
+is an implementation of ```AndroidCredentialProvider```. If you're using
+multiple ```AndroidCredentialProvider``` I recommend using the ```CompositeAndroidCredentialProvider```
+
 ## 1. Setup
 * Add the dependency
 ```gradle
@@ -38,7 +39,7 @@ application using the ApplicationId of your app
 ## 2. Implementation
 Create an instance
 ```kotlin
-val facebookProvider = FacebookAuthProvider(activity)
+val facebookProvider = FacebookCredentialProvider(activity)
 ```
 and make sure you reach the onActivityResult call to the provider:
 ```kotlin
@@ -49,6 +50,6 @@ public override fun onActivityResult(requestCode: Int, resultCode: Int, data: In
 ```
 ## Ready to go
 ```kotlin
-facebookProvider.authenticate()
+facebookProvider.requestCredential()
     .subscribe{facebookCredential -> ...}
 ```

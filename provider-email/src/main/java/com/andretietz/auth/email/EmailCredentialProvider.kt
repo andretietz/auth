@@ -18,7 +18,7 @@ class EmailCredentialProvider constructor(private val activity: AppCompatActivit
 
     private var resultEmitter: MaybeEmitter<AuthCredential>? = null
 
-    override fun authenticate(): Maybe<AuthCredential> {
+    override fun requestCredential(): Maybe<AuthCredential> {
         return Maybe.create<AuthCredential> { emitter ->
             resultEmitter = emitter
         }.doOnSubscribe {

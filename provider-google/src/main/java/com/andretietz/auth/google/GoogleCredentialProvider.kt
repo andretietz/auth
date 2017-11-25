@@ -42,7 +42,7 @@ class GoogleCredentialProvider constructor(private val activity: AppCompatActivi
         }
     }
 
-    override fun authenticate(): Maybe<AuthCredential> {
+    override fun requestCredential(): Maybe<AuthCredential> {
         return Maybe.create<AuthCredential> { emitter ->
             resultEmitter = emitter
         }.doOnSubscribe {

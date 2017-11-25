@@ -10,9 +10,9 @@ interface CredentialProvider {
     fun type(): String
 
     /**
-     * @return a stream that starts authenticating when someone subscribes to it. when successful
+     * @return a stream that starts requesting the credentials when someone subscribes to it. when successful
      * it emits an {@link AuthCredential}, when it was canceled it will complete
      */
     @CheckReturnValue
-    fun authenticate(): Maybe<AuthCredential>
+    fun requestCredential(): Maybe<AuthCredential>
 }

@@ -9,7 +9,7 @@ class CompositeAndroidCredentialProvider(val providers: Map<String, CredentialPr
     @CheckReturnValue
     fun authenticate(type: String): Maybe<AuthCredential> {
         providers[type]
-                ?.let { return it.authenticate() }
+                ?.let { return it.requestCredential() }
         throw IllegalStateException("Provider $type not found!")
     }
 

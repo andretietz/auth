@@ -23,8 +23,8 @@ class CompositeAndroidCredentialProviderTest {
     @Test
     fun testIfAuthenticateRunsWhenRightTypeAsArgument() {
         provider.authenticate("test")
-        verify(authProvider1, times(1)).authenticate()
-        verify(authProvider2, never()).authenticate()
+        verify(authProvider1, times(1)).requestCredential()
+        verify(authProvider2, never()).requestCredential()
     }
 
 
