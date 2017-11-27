@@ -7,5 +7,5 @@ data class GoogleCredential(val idToken: String?, val token: String?) : AuthCred
         const val TYPE = "google"
     }
 
-    override fun type(): String = TYPE
+    override fun type() = TYPE
 }

@@ -1,7 +1,7 @@
 package com.andretietz.auth.demo
 
+import com.andretietz.auth.demo.model.User
 import com.andretietz.auth.firebase.UserFactory
-import com.andretietz.auth.model.User
 import com.google.firebase.auth.FirebaseUser
 import javax.inject.Inject
 
