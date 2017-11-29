@@ -21,7 +21,7 @@ class FirebaseAuthClient<T>(private val userFactory: UserFactory<T>) : AuthClien
 
 
     override fun signUp(credential: AuthCredential): Single<T> {
-        return Single.create({ emitter ->
+        return Single.create { emitter ->
             if (credential.type() == EmailCredential.TYPE) {
                 credential as EmailCredential
                 handleTask(firebaseAuth.createUserWithEmailAndPassword(credential.email, credential.password), emitter)
@@ -29,13 +29,13 @@ class FirebaseAuthClient<T>(private val userFactory: UserFactory<T>) : AuthClien
             } else {
                 handleTask(firebaseAuth.signInWithCredential(mapper.map(credential)), emitter)
             }
-        })
+        }
     }
 
     override fun signIn(credential: AuthCredential): Single<T> {
-        return Single.create({ emitter ->
+        return Single.create { emitter ->
             handleTask(firebaseAuth.signInWithCredential(mapper.map(credential)), emitter)
-        })
+        }
     }
 
     override fun isSignedIn(): Maybe<T> {
@@ -50,11 +50,11 @@ class FirebaseAuthClient<T>(private val userFactory: UserFactory<T>) : AuthClien
 
     private fun handleTask(task: Task<AuthResult>, emitter: SingleEmitter<T>) {
         task.addOnCompleteListener(backgroundExecutor, OnCompleteListener {
-            if (!it.isSuccessful) {
-                emitter.onError(it.exception!!)
-                return@OnCompleteListener
+            if (it.isSuccessful) {
+                emitter.onSuccess(userFactory.createUser(it.result.user))
+            } else {
+                emitter.onError(it.exception ?: AssertionError())
             }
-            emitter.onSuccess(userFactory.createUser(it.result.user))
         })
     }
 
@@ -62,7 +62,7 @@ class FirebaseAuthClient<T>(private val userFactory: UserFactory<T>) : AuthClien
         val currentUser = firebaseAuth.currentUser
                 ?: return Single.error(IllegalStateException("User is not signed in!"))
         val user = userFactory.createUser(currentUser)
-        return Single.create({ emitter ->
+        return Single.create { emitter ->
             firebaseAuth.addAuthStateListener(object : FirebaseAuth.AuthStateListener {
                 override fun onAuthStateChanged(firebaseAuth: FirebaseAuth) {
                     if (firebaseAuth.currentUser == null) {
@@ -72,7 +72,7 @@ class FirebaseAuthClient<T>(private val userFactory: UserFactory<T>) : AuthClien
                 }
             })
             firebaseAuth.signOut()
-        })
+        }
     }
 
 }

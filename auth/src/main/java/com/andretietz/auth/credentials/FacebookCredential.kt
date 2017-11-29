@@ -7,5 +7,5 @@ data class FacebookCredential(val token: String) : AuthCredential {
         const val TYPE = "facebook"
     }
 
-    override fun type(): String = TYPE
+    override fun type() = TYPE
 }

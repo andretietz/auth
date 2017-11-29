@@ -9,14 +9,13 @@ import com.andretietz.auth.AuthClient
 import com.andretietz.auth.AuthCredential
 import com.andretietz.auth.CredentialProvider
 import com.andretietz.auth.CompositeAndroidCredentialProvider
-import com.andretietz.auth.model.User
+import com.andretietz.auth.demo.model.User
 import dagger.android.support.DaggerAppCompatActivity
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_main.*
 import timber.log.Timber
 import javax.inject.Inject
-
 
 class MainActivity : DaggerAppCompatActivity() {
 

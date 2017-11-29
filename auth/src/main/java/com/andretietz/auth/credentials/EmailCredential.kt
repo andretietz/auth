@@ -7,5 +7,5 @@ data class EmailCredential(val email: String, val password: String) : AuthCreden
         const val TYPE = "email"
     }
 
-    override fun type(): String = TYPE
+    override fun type() = TYPE
 }

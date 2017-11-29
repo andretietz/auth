@@ -1,24 +1,24 @@
 # Authentication World - Android
-I am sick of writing the same authentication stuff over and over again
+I am sick of writing the same authentication stuff over and over again,
 so I created a library that I can re-use for all different kinds of
  authentications.
-This is a library written in kotlin
+This is a library written in kotlin.
 
 ## 1. A common abstract authentication layer - auth
 This part of the library is basically a set of interfaces with which you can start implementing your
-app, without the need to care which  providers (email,oauthX providers, ...) you will use later on
+app, without the need to care which  providers (email, oauthX providers, ...) you will use later on
 or which type of backend you are using later on.
 
-The main interfaces are
+The main interfaces are:
 * ```CredentialProvider``` or ```AndroidCredentialProvider``` which represents any kind of authentication using
- a third party service such as google, facebook or similar. This Providers should be able to provide
+ a third party service such as Google, Facebook or similar. This Providers should be able to provide
  you an ```AuthCredential``` which you either use in app only or you authenticate with it against
  some backend using the ```AuthClient``` implementations.
 * ```AuthClient<T>``` represents any type of authentication server you can use, while ```T``` is the
-type of user object you're using in your app. Leave it void if you really want.
+type of user object you're using in your app, which can also be of type `Void`.
 
 So the idea was regardless of which authentication-provider you will use or to which kind of
-server/service you will authenticate to, you can use this interfaces
+server/service you will authenticate to, you can use these interfaces.
 
 Go [here](auth/) for details or checkout the [demo-application](app/)
 

@@ -14,10 +14,8 @@ class CompositeAndroidCredentialProvider(val providers: Map<String, CredentialPr
     }
 
     fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        providers.forEach {
-            if (it.value !is AndroidCredentialProvider) return@forEach
-            val provider = it.value as AndroidCredentialProvider
-            provider.onActivityResult(requestCode, resultCode, data)
-        }
+        providers.values
+            .filterIsInstance<AndroidCredentialProvider>()
+            .forEach { it.onActivityResult(requestCode, resultCode, data) }
     }
 }

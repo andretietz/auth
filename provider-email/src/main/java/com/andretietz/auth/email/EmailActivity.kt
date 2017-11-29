@@ -15,9 +15,7 @@ class EmailActivity : AppCompatActivity() {
         const val RESULT_EMAIL = "result_email"
         const val RESULT_PASSWORD = "result_password"
 
-        fun createIntent(context: Context): Intent {
-            return Intent(context, EmailActivity::class.java)
-        }
+        fun createIntent(context: Context) = Intent(context, EmailActivity::class.java)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

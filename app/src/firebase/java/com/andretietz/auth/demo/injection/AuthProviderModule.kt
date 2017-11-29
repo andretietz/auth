@@ -43,15 +43,13 @@ class AuthProviderModule {
     @IntoMap
     @ActivityScope
     @StringKey(TwitterCredential.TYPE)
-    fun provideTwitterProvider(activity: AppCompatActivity): CredentialProvider {
-        return TwitterCredentialProvider(activity, activity.getString(R.string.twitter_app_key),
+    fun provideTwitterProvider(activity: AppCompatActivity): CredentialProvider =
+        TwitterCredentialProvider(activity, activity.getString(R.string.twitter_app_key),
                 activity.getString(R.string.twitter_app_secret))
-    }
     @Provides
     @IntoMap
     @ActivityScope
     @StringKey(EmailCredential.TYPE)
-    fun provideEmailProvider(activity: AppCompatActivity): CredentialProvider {
-        return EmailCredentialProvider(activity)
-    }
+    fun provideEmailProvider(activity: AppCompatActivity): CredentialProvider =
+        EmailCredentialProvider(activity)
 }

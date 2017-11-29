@@ -7,5 +7,5 @@ class TwitterCredential constructor(val token: String, val secret: String) : Aut
         const val TYPE = "twitter"
     }
 
-    override fun type(): String = TYPE
+    override fun type() = TYPE
 }
