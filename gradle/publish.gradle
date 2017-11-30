@@ -26,11 +26,11 @@ def isReleaseBuild() {
 }
 
 def getRepositoryUsername() {
-    return project.hasProperty('bintrayUser') ? project.bintrayUser : ""
+    return project.hasProperty('bintrayUser') ? project.bintrayUser : System.getenv("BINTRAY_USER") ?: ""
 }
 
 def getRepositoryPassword() {
-    return project.hasProperty('bintrayKey') ? project.bintrayKey : ""
+    return project.hasProperty('bintrayKey') ? project.bintrayKey : System.getenv("BINTRAY_KEY") ?: ""
 }
 
 afterEvaluate { project ->
