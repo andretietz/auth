@@ -7,21 +7,20 @@ import com.andretietz.auth.AndroidCredentialProvider
 import com.andretietz.auth.AuthCredential
 import com.andretietz.auth.credentials.EmailCredential
 import io.reactivex.Maybe
-import io.reactivex.MaybeEmitter
+import io.reactivex.subjects.MaybeSubject
 
-class EmailCredentialProvider constructor(private val activity: AppCompatActivity) : AndroidCredentialProvider {
+class EmailCredentialProvider(private val activity: AppCompatActivity) : AndroidCredentialProvider {
 
     companion object {
         const val TYPE = "email"
         const val EMAIL_REQUEST_CODE = 0xE001
     }
 
-    private var resultEmitter: MaybeEmitter<AuthCredential>? = null
+    private var resultEmitter: MaybeSubject<AuthCredential> = MaybeSubject.create()
 
     override fun requestCredential(): Maybe<AuthCredential> {
-        return Maybe.create<AuthCredential> { emitter ->
-            resultEmitter = emitter
-        }.doOnSubscribe {
+        resultEmitter = MaybeSubject.create()
+        return resultEmitter.doOnSubscribe {
             activity.startActivityForResult(EmailActivity.createIntent(activity), EMAIL_REQUEST_CODE)
         }
     }
@@ -29,15 +28,10 @@ class EmailCredentialProvider constructor(private val activity: AppCompatActivit
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode != EMAIL_REQUEST_CODE) return
         when (resultCode) {
-            Activity.RESULT_CANCELED ->
-                resultEmitter?.let {
-                    if (it.isDisposed) return
-                    it.onComplete()
-                }
+            Activity.RESULT_CANCELED -> resultEmitter.onComplete()
             Activity.RESULT_OK ->
-                resultEmitter?.let {
-                    if (it.isDisposed || data == null) return
-                    it.onSuccess(
+                data?.let {
+                    resultEmitter.onSuccess(
                             EmailCredential(
                                     data.getStringExtra(EmailActivity.RESULT_EMAIL),
                                     data.getStringExtra(EmailActivity.RESULT_PASSWORD)

@@ -14,10 +14,13 @@ import com.google.android.gms.common.Scopes
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.common.api.Scope
 import io.reactivex.Maybe
-import io.reactivex.MaybeEmitter
+import io.reactivex.subjects.MaybeSubject
 
-class GoogleCredentialProvider constructor(private val activity: AppCompatActivity, webClientId: String)
-    : AndroidCredentialProvider {
+class GoogleCredentialProvider(
+        private val activity: AppCompatActivity,
+        webClientId: String,
+        vararg scopes: String = arrayOf(Scopes.EMAIL)
+) : AndroidCredentialProvider {
 
     companion object {
         const val GOOGLE_LOGIN_REQUEST_CODE = 0xC001
@@ -25,15 +28,15 @@ class GoogleCredentialProvider constructor(private val activity: AppCompatActivi
     }
 
     private val signInClient: GoogleSignInClient
-    private var resultEmitter: MaybeEmitter<AuthCredential>? = null
+    private var maybeSubject = MaybeSubject.create<AuthCredential>()
 
     init {
+
         val options = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(webClientId)
-                .requestScopes(Scope(Scopes.EMAIL))
-                .build()
+        scopes.forEach { options.requestScopes(Scope(it)) }
 
-        signInClient = GoogleSignIn.getClient(activity, options)
+        signInClient = GoogleSignIn.getClient(activity, options.build())
 
         val serviceAvailability = GoogleApiAvailability.getInstance()
         val result = serviceAvailability.isGooglePlayServicesAvailable(activity)
@@ -43,9 +46,8 @@ class GoogleCredentialProvider constructor(private val activity: AppCompatActivi
     }
 
     override fun requestCredential(): Maybe<AuthCredential> {
-        return Maybe.create<AuthCredential> { emitter ->
-            resultEmitter = emitter
-        }.doOnSubscribe {
+        maybeSubject = MaybeSubject.create()
+        return maybeSubject.doOnSubscribe {
             activity.startActivityForResult(signInClient.signInIntent, GOOGLE_LOGIN_REQUEST_CODE)
         }.doOnSuccess {
             signInClient.signOut()
@@ -55,18 +57,13 @@ class GoogleCredentialProvider constructor(private val activity: AppCompatActivi
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (GOOGLE_LOGIN_REQUEST_CODE != requestCode) return
-
         val task = GoogleSignIn.getSignedInAccountFromIntent(data)
-        resultEmitter?.let {
-            if (it.isDisposed) return@let
-            try {
-                val account = task.getResult(ApiException::class.java)
-                it.onSuccess(GoogleCredential(account.idToken, null))
-            } catch (error: ApiException) {
-                it.onError(error)
-            }
+        try {
+            val account = task.getResult(ApiException::class.java)
+            maybeSubject.onSuccess(GoogleCredential(account.idToken, null))
+        } catch (error: ApiException) {
+            maybeSubject.onError(error)
         }
-        resultEmitter = null
     }
 
     override fun type(): String = GoogleCredential.TYPE

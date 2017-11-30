@@ -12,7 +12,10 @@ import com.facebook.login.LoginResult
 import io.reactivex.Maybe
 
 
-class FacebookCredentialProvider(private val activity: AppCompatActivity) : AndroidCredentialProvider {
+class FacebookCredentialProvider(
+        private val activity: AppCompatActivity,
+        private vararg val scopes: String = arrayOf("public_profile", "email")
+) : AndroidCredentialProvider {
     private val callbackManager = CallbackManager.Factory.create()
     private val loginManager = LoginManager.getInstance()
 
@@ -35,9 +38,8 @@ class FacebookCredentialProvider(private val activity: AppCompatActivity) : Andr
                 }
             })
         }.doOnSubscribe {
-            loginManager.logInWithReadPermissions(activity, mutableListOf("public_profile", "email"))
-        }
-                .doOnSuccess { loginManager.logOut() }
+            loginManager.logInWithReadPermissions(activity, scopes.toMutableList())
+        }.doOnSuccess { loginManager.logOut() }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
