@@ -1,3 +1,5 @@
+[![Build Status](https://www.bitrise.io/app/a13b8d5935fe00b5.svg?token=cYmBAyIvLZDreM8-frQqSg&branch=master)](https://www.bitrise.io/app/a13b8d5935fe00b5)
+
 # Authentication World - Android
 I am sick of writing the same authentication stuff over and over again,
 so I created a library that I can re-use for all different kinds of
