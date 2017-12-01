@@ -22,7 +22,8 @@ type of user object you're using in your app, which can also be of type `Void`.
 So the idea was regardless of which authentication-provider you will use or to which kind of
 server/service you will authenticate to, you can use these interfaces.
 
-Go [here](auth/) for details or checkout the [demo-application](app/)
+Go [here](auth/) for details or checkout the [demo-application](app/) or [download and
+install the Demo-Application](app/demo.apk)
 
 ## 2. Ready-to-use Provider implementations
 These implementations are existing right now
