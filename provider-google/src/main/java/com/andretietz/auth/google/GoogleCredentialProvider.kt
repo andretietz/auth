@@ -8,6 +8,7 @@ import com.andretietz.auth.credentials.GoogleCredential
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.auth.api.signin.GoogleSignInStatusCodes
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.GoogleApiAvailability
 import com.google.android.gms.common.Scopes
@@ -62,11 +63,9 @@ class GoogleCredentialProvider(
             val account = task.getResult(ApiException::class.java)
             maybeSubject.onSuccess(GoogleCredential(account.idToken, null))
         } catch (error: ApiException) {
-            error.message?.let {
-                if (it.startsWith("12501:")) {
-                    maybeSubject.onComplete()
-                    return
-                }
+            if (error.statusCode == GoogleSignInStatusCodes.SIGN_IN_CANCELLED) {
+                maybeSubject.onComplete()
+                return
             }
             maybeSubject.onError(error)
         }
