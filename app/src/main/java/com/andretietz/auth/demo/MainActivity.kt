@@ -7,8 +7,8 @@ import android.view.View
 import android.widget.ArrayAdapter
 import com.andretietz.auth.AuthClient
 import com.andretietz.auth.AuthCredential
-import com.andretietz.auth.CredentialProvider
 import com.andretietz.auth.CompositeAndroidCredentialProvider
+import com.andretietz.auth.CredentialProvider
 import com.andretietz.auth.demo.model.User
 import dagger.android.support.DaggerAppCompatActivity
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -26,14 +26,20 @@ class MainActivity : DaggerAppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        spinnerProviders.adapter = ArrayAdapter<CredentialProvider>(this, android.R.layout.activity_list_item,
+        spinnerProviders.adapter = ArrayAdapter<CredentialProvider>(this,
+                android.R.layout.simple_spinner_dropdown_item,
                 android.R.id.text1, ArrayList(provider.providers.values))
 
         buttonSignIn.isEnabled = false
         client.isSignedIn()
                 .doOnComplete { buttonState(false) }
                 .subscribe { user ->
-                    Snackbar.make(rootView, "Welcome ${user.name}", Snackbar.LENGTH_LONG).show()
+                    Snackbar.make(
+                            rootView,
+                            String.format(getString(R.string.signin_snackbar_welcome_message),
+                                    user.name),
+                            Snackbar.LENGTH_LONG
+                    ).show()
                     buttonState(true)
                 }
 
@@ -54,7 +60,12 @@ class MainActivity : DaggerAppCompatActivity() {
                 .doOnEvent { _, _ -> progressBar.visibility = View.INVISIBLE }
                 .subscribe({ user ->
                     buttonState(true)
-                    Snackbar.make(rootView, "Welcome ${user.name} (${credential.type()})", Snackbar.LENGTH_LONG).show()
+                    Snackbar.make(
+                            rootView,
+                            String.format(getString(R.string.signin_snackbar_welcome_message)
+                                    + "(${credential.type()})", user.name),
+                            Snackbar.LENGTH_LONG
+                    ).show()
                 }, { error ->
                     error.message?.let {
                         Snackbar.make(rootView, it, Snackbar.LENGTH_LONG).show()
@@ -64,7 +75,10 @@ class MainActivity : DaggerAppCompatActivity() {
     }
 
     private fun buttonState(loggedIn: Boolean) {
-        buttonSignIn.text = if (loggedIn) "Logout" else "Login"
+        buttonSignIn.text =
+                if (loggedIn) getString(R.string.signin_button_signout)
+                else getString(R.string.signin_button_signin)
+
         spinnerProviders.isEnabled = !loggedIn
         buttonSignIn.isEnabled = true
         if (loggedIn) {
@@ -83,7 +97,11 @@ class MainActivity : DaggerAppCompatActivity() {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ user ->
                     buttonState(false)
-                    Snackbar.make(rootView, "Bye bye ${user.name}", Snackbar.LENGTH_LONG).show()
+                    Snackbar.make(
+                            rootView,
+                            String.format(getString(R.string.signin_snackbar_goodbye_message), user.name),
+                            Snackbar.LENGTH_LONG
+                    ).show()
                 }, { error -> Timber.e(error) })
     }
 

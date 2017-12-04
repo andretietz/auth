@@ -62,6 +62,12 @@ class GoogleCredentialProvider(
             val account = task.getResult(ApiException::class.java)
             maybeSubject.onSuccess(GoogleCredential(account.idToken, null))
         } catch (error: ApiException) {
+            error.message?.let {
+                if (it.startsWith("12501:")) {
+                    maybeSubject.onComplete()
+                    return
+                }
+            }
             maybeSubject.onError(error)
         }
     }

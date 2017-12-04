@@ -1,5 +1,11 @@
 <resources>
     <string name="app_name">Auth Application</string>
+
+    <string name="signin_button_signin">Login</string>
+    <string name="signin_button_signout">Logout</string>
+    <string name="signin_snackbar_welcome_message">Welcome %1s</string>
+    <string name="signin_snackbar_goodbye_message">See you next time %1s</string>
+
     <string name="facebook_app_id">[YOUR-FACEBOOK-APP-ID]</string>
     <string name="fb_login_protocol_scheme">fb[YOUR-FACEBOOK-APP-ID]</string>
     <string name="twitter_app_key">[YOUR-TWITTER-APP-ID]</string>
