@@ -25,12 +25,20 @@ server/service you will authenticate to, you can use these interfaces.
 Go [here](auth/) for details or checkout the [demo-application](app/) or [download and
 install the Demo-Application](app/demo.apk)
 
-## 2. Ready-to-use Provider implementations
+## 2. Ready-to-use Credential-Provider implementations
+In order to create a credential-provider that can provide credentials, there has to be a common credential object
+which is known by the client implementations as well as by the actual credential-providers.
+That's why the credentials itself are separated from the implementation of the credential providers.
+
 These implementations are existing right now
  * [provider-email - Provides Email credentials sign in](provider-email/)
+   * Provides [Email-Credential](credential-email/)
  * [provider-google - Google Sign In](provider-google/)
+   * Provides [Google-Credential](credential-google/)
  * [provider-facebook - Facebook Sign In](provider-facebook/)
+   * Provides [Facebook-Credential](credential-facebook/)
  * [provider-twitter - Twitter Sign In](provider-twitter/)
+   * Provides [Twitter-Credential](credential-twitter/)
 
 ## 3. Ready-to-use Client implementations
 At the moment there's only one implementation
