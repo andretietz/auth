@@ -2,7 +2,9 @@ package com.andretietz.auth
 
 import org.junit.Test
 import org.mockito.Mockito
-import org.mockito.Mockito.*
+import org.mockito.Mockito.never
+import org.mockito.Mockito.times
+import org.mockito.Mockito.verify
 
 
 class CompositeAndroidCredentialProviderTest {

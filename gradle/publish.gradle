@@ -46,7 +46,8 @@ afterEvaluate { project ->
                 repository(url: "https://api.bintray.com/maven/unicate/android-tools/auth/;publish=1") {
                     authentication(userName: getRepositoryUsername(), password: getRepositoryPassword())
                 }
-                snapshotRepository(url: "https://oss.jfrog.org/artifactory/oss-snapshot-local/") {
+                snapshotRepository(url: "file://" + System.getProperty("user.home") + "/.m2/repository/") {
+//                snapshotRepository(url: "https://oss.jfrog.org/artifactory/oss-snapshot-local/") {
                     authentication(userName: getRepositoryUsername(), password: getRepositoryPassword())
                 }
 
@@ -87,10 +88,12 @@ afterEvaluate { project ->
     }
 
     task androidJavadocs(type: Javadoc) {
-        if (!project.plugins.hasPlugin('kotlin-android')) {
-            source = android.sourceSets.main.java.srcDirs
+        if (!project.plugins.hasPlugin('kotlin')) {
+            if (!project.plugins.hasPlugin('kotlin-android')) {
+                source = android.sourceSets.main.java.srcDirs
+            }
+            classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
         }
-        classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
         exclude '**/internal/*'
 
         if (JavaVersion.current().isJava8Compatible()) {
@@ -105,7 +108,9 @@ afterEvaluate { project ->
 
     task androidSourcesJar(type: Jar) {
         classifier = 'sources'
-        from android.sourceSets.main.java.sourceFiles
+        if (project.plugins.hasPlugin('kotlin-android')) {
+            from android.sourceSets.main.java.sourceFiles
+        }
     }
 
     artifacts {

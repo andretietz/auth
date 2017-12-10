@@ -24,6 +24,7 @@ dependencies {
     api "com.android.support:appcompat-v7:$supportLibraryVersion"
     api "com.android.support:design:$supportLibraryVersion"
     api "com.google.android.gms:play-services-auth:$playServicesVersion"
-    api project(':auth')
+    api project(':auth-android')
+    api project(':credential-google')
 }
 apply from: rootProject.file('gradle/publish.gradle')

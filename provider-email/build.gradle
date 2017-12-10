@@ -20,7 +20,8 @@ android {
 }
 
 dependencies {
-    api project(':auth')
+    api project(':credential-email')
+    api project(':auth-android')
     implementation "com.android.support:appcompat-v7:$supportLibraryVersion"
     implementation "com.android.support:design:$supportLibraryVersion"
     implementation "com.android.support.constraint:constraint-layout:$constraintLayoutVersion"

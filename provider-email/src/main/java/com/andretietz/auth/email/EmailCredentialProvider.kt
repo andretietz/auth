@@ -12,7 +12,6 @@ import io.reactivex.subjects.MaybeSubject
 class EmailCredentialProvider(private val activity: AppCompatActivity) : AndroidCredentialProvider {
 
     companion object {
-        const val TYPE = "email"
         const val EMAIL_REQUEST_CODE = 0xE001
     }
 
@@ -41,5 +40,5 @@ class EmailCredentialProvider(private val activity: AppCompatActivity) : Android
         }
     }
 
-    override fun type(): String = TYPE
+    override fun type(): String = EmailCredential.TYPE
 }

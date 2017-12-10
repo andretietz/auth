@@ -23,6 +23,10 @@ dependencies {
     api "com.android.support:design:$supportLibraryVersion"
 
     api "com.google.firebase:firebase-auth:$playServicesVersion"
-    api project(':auth')
+    api project(':auth-android')
+    api project(':credential-email')
+    api project(':credential-google')
+    api project(':credential-facebook')
+    api project(':credential-twitter')
 }
 apply from: rootProject.file('gradle/publish.gradle')
