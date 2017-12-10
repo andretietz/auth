@@ -17,6 +17,7 @@ include ':provider-facebook'
 
 // auth client implementations
 include ':client-firebase'
+include ':client-back4app'
 
 // demo app
 include ':app'

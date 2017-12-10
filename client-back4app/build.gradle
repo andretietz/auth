@@ -1,0 +1,29 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+
+android {
+    compileSdkVersion 27
+
+    defaultConfig {
+        minSdkVersion 17
+        targetSdkVersion 27
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            consumerProguardFiles 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    api 'com.parse:parse-android:1.16.3'
+    api project(':auth-android')
+//    api project(':credential-email')
+//    api project(':credential-google')
+//    api project(':credential-facebook')
+//    api project(':credential-twitter')
+}
+apply from: rootProject.file('gradle/publish.gradle')
