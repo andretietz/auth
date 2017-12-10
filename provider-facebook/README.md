@@ -1,4 +1,4 @@
-# AndroidCredentialhProvider: Facebook
+# AndroidCredentialProvider: Facebook
 is an implementation of ```AndroidCredentialProvider```. If you're using
 multiple ```AndroidCredentialProvider``` I recommend using the ```CompositeAndroidCredentialProvider```
 
