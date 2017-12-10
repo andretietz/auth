@@ -26,6 +26,10 @@ android {
         firebase {
             dimension "default"
         }
+
+        back4app {
+            dimension "default"
+        }
     }
 }
 
@@ -34,6 +38,9 @@ dependencies {
     implementation "com.jakewharton.timber:timber:$timberVersion"
 
     implementation project(':auth-android')
+
+    back4appImplementation project(":client-back4app")
+    back4appImplementation project(":provider-email")
 
     firebaseImplementation project(':client-firebase')
     firebaseImplementation project(':provider-google')

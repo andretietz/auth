@@ -21,7 +21,7 @@ android {
 dependencies {
     api 'com.parse:parse-android:1.16.3'
     api project(':auth-android')
-//    api project(':credential-email')
+    api project(':credential-email')
 //    api project(':credential-google')
 //    api project(':credential-facebook')
 //    api project(':credential-twitter')

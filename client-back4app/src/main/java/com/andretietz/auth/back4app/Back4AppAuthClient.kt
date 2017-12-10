@@ -3,6 +3,7 @@ package com.andretietz.auth.back4app
 import android.content.Context
 import com.andretietz.auth.AuthClient
 import com.andretietz.auth.AuthCredential
+import com.andretietz.auth.credentials.EmailCredential
 import com.parse.Parse
 import com.parse.ParseInstallation
 import com.parse.ParseUser
@@ -44,14 +45,55 @@ class Back4AppAuthClient<RESULT>(
     }
 
     override fun signUp(credential: AuthCredential): Single<RESULT> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        if (credential is EmailCredential) {
+            return Single.create { emitter ->
+                val user = ParseUser()
+                user.username = credential.email
+                user.email = credential.email
+                user.setPassword(credential.password)
+                user.signUpInBackground { error ->
+                    if (error != null)
+                        emitter.onError(error)
+                    ParseUser.logInInBackground(credential.email, credential.password, { user, error ->
+                        if (user != null) {
+                            emitter.onSuccess(userFactory.createUser(user))
+                        } else {
+                            emitter.onError(error)
+                        }
+                    })
+                }
+                return@create
+            }
+        }
+        return Single.error(IllegalStateException("Unsupported credential type: ${credential.type()}"))
+
+
     }
 
     override fun signIn(credential: AuthCredential): Single<RESULT> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return Single.create { emitter ->
+            if (credential is EmailCredential) {
+                ParseUser.logInInBackground(credential.email, credential.password, { user, error ->
+                    if (user != null) {
+                        emitter.onSuccess(userFactory.createUser(user))
+                    } else {
+                        emitter.onError(error)
+                    }
+                })
+                return@create
+            }
+            emitter.onError(IllegalStateException("Unsupported credential type: ${credential.type()}"))
+        }
     }
 
     override fun signOut(): Single<RESULT> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        val currentUser = ParseUser.getCurrentUser()
+                ?: return Single.error(IllegalStateException("User is not signed in!"))
+        return Single.create { emitter ->
+            ParseUser.logOutInBackground { error ->
+                if (error != null) emitter.onError(error)
+                emitter.onSuccess(userFactory.createUser(currentUser))
+            }
+        }
     }
 }
