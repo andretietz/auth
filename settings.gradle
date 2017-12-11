@@ -1,12 +1,24 @@
+// Base Library
 include ':auth'
+// Android Base Library
+include ':auth-android'
 
+// Credential types
+include ':credential-email'
+include ':credential-google'
+include ':credential-facebook'
+include ':credential-twitter'
+
+// credential providers
 include ':provider-email'
 include ':provider-twitter'
 include ':provider-google'
 include ':provider-facebook'
 
+// auth client implementations
 include ':client-firebase'
 
+// demo app
 include ':app'
 
 rootProject.name = 'auth-root'

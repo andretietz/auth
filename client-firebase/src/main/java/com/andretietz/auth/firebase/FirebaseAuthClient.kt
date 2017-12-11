@@ -8,6 +8,7 @@ import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
 import io.reactivex.Maybe
+import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.SingleEmitter
 import java.util.concurrent.Executors
@@ -38,13 +39,27 @@ class FirebaseAuthClient<T>(private val userFactory: UserFactory<T>) : AuthClien
         }
     }
 
-    override fun isSignedIn(): Maybe<T> {
+    override fun getUser(): Maybe<T> {
         return Maybe.create { emitter ->
             if (firebaseAuth.currentUser != null) {
                 emitter.onSuccess(userFactory.createUser(firebaseAuth.currentUser!!))
             } else {
                 emitter.onComplete()
             }
+        }
+    }
+
+    override fun signInState(): Observable<AuthClient.State<T>> {
+        return Observable.create { emitter ->
+            val listener = FirebaseAuth.AuthStateListener { firebaseAuth ->
+                if (firebaseAuth.currentUser == null) {
+                    emitter.onNext(AuthClient.State(null))
+                } else {
+                    emitter.onNext(AuthClient.State(userFactory.createUser(firebaseAuth.currentUser!!)))
+                }
+            }
+            emitter.setCancellable { firebaseAuth.removeAuthStateListener(listener) }
+            firebaseAuth.addAuthStateListener(listener)
         }
     }
 

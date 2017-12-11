@@ -31,7 +31,7 @@ class MainActivity : DaggerAppCompatActivity() {
                 android.R.id.text1, ArrayList(provider.providers.values))
 
         buttonSignIn.isEnabled = false
-        client.isSignedIn()
+        client.getUser()
                 .doOnComplete { buttonState(false) }
                 .subscribe { user ->
                     Snackbar.make(

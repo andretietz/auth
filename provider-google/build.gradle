@@ -7,8 +7,6 @@ android {
     defaultConfig {
         minSdkVersion 17
         targetSdkVersion 27
-        versionName "1.0"
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
@@ -22,8 +20,10 @@ android {
 
 dependencies {
     api "com.android.support:appcompat-v7:$supportLibraryVersion"
-    api "com.android.support:design:$supportLibraryVersion"
+    api "com.android.support:support-v4:$supportLibraryVersion"
+    api "com.android.support:support-media-compat:$supportLibraryVersion"
     api "com.google.android.gms:play-services-auth:$playServicesVersion"
-    api project(':auth')
+    api project(':auth-android')
+    api project(':credential-google')
 }
 apply from: rootProject.file('gradle/publish.gradle')
