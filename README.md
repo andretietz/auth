@@ -23,7 +23,7 @@ So the idea was regardless of which authentication-provider you will use or to w
 server/service you will authenticate to, you can use these interfaces.
 
 Go [here](auth/) for details or checkout the [demo-application](app/) or [download and
-install the Demo-Application](app/demo.apk)
+install the Demo-Application](demos/)
 
 ## 2. Ready-to-use Credential-Provider implementations
 In order to create a credential-provider that can provide credentials, there has to be a common credential object
@@ -43,6 +43,7 @@ These implementations are existing right now
 ## 3. Ready-to-use Client implementations
 At the moment there's only one implementation
 * [client-firebase](client-firebase/)
+* [client-back4app](client-back4app/)
 
 ## License
     Copyright 2017 André Tietz

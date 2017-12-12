@@ -28,13 +28,12 @@ apply plugin: 'com.google.gms.google-services'
 
 ## 2. Create a UserFactory
 In order to use this client implementation you need to implement the
-```UserFactory``` interface. This interface provides in one method
+```ResultMapper``` interface. This interface provides in one method
 the FirebaseUser object as soon as available and will return any type
 of user you need in your app.
 i.e.:
-```kotlin
-class FirebaseUserFactory @Inject constructor() : UserFactory<User> {
-    override fun createUser(firebaseUser: FirebaseUser): User {
+class YourUserMapperImplementation : ResultMapper<FirebaseUser, User> {
+    override fun map(firebaseUser: FirebaseUser): User {
         return User(
                 firebaseUser.uid,
                 firebaseUser.email,
@@ -49,8 +48,8 @@ class FirebaseUserFactory @Inject constructor() : UserFactory<User> {
 ## 3. Create an instance
 
 ```kotlin
-val userFactory = YourUserFactoryImplementation()
-val authClient = FirebaseAuthClient(userFactory)
+val userMapper = YourUserMapperImplementation()
+val authClient = FirebaseAuthClient(userMapper)
 ```
 
 ## Ready to go

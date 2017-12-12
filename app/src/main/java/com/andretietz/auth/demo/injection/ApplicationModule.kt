@@ -11,9 +11,12 @@ import dagger.android.ContributesAndroidInjector
 abstract class ApplicationModule {
 
     @ActivityScope
-    @ContributesAndroidInjector(modules = arrayOf(AuthProviderModule::class))
+    @ContributesAndroidInjector(modules = arrayOf(AuthProviderModule::class, MainActivityProvider::class))
     abstract fun provideActivity(): MainActivity
 
-    @Binds
-    abstract fun provideActivity(mainActivity: MainActivity): AppCompatActivity
+    @Module
+    abstract class MainActivityProvider {
+        @Binds
+        abstract fun provideActivity(mainActivity: MainActivity): AppCompatActivity
+    }
 }

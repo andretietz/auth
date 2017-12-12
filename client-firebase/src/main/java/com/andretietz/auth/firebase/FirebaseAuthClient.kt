@@ -2,18 +2,19 @@ package com.andretietz.auth.firebase
 
 import com.andretietz.auth.AuthClient
 import com.andretietz.auth.AuthCredential
+import com.andretietz.auth.ResultMapper
 import com.andretietz.auth.credentials.EmailCredential
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import io.reactivex.Maybe
-import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.SingleEmitter
 import java.util.concurrent.Executors
 
-class FirebaseAuthClient<T>(private val userFactory: UserFactory<T>) : AuthClient<T> {
+class FirebaseAuthClient<T>(private val userMapper: ResultMapper<FirebaseUser, T>) : AuthClient<T> {
 
 
     private val firebaseAuth = FirebaseAuth.getInstance()
@@ -42,31 +43,17 @@ class FirebaseAuthClient<T>(private val userFactory: UserFactory<T>) : AuthClien
     override fun getUser(): Maybe<T> {
         return Maybe.create { emitter ->
             if (firebaseAuth.currentUser != null) {
-                emitter.onSuccess(userFactory.createUser(firebaseAuth.currentUser!!))
+                emitter.onSuccess(userMapper.map(firebaseAuth.currentUser!!))
             } else {
                 emitter.onComplete()
             }
         }
     }
 
-    override fun signInState(): Observable<AuthClient.State<T>> {
-        return Observable.create { emitter ->
-            val listener = FirebaseAuth.AuthStateListener { firebaseAuth ->
-                if (firebaseAuth.currentUser == null) {
-                    emitter.onNext(AuthClient.State(null))
-                } else {
-                    emitter.onNext(AuthClient.State(userFactory.createUser(firebaseAuth.currentUser!!)))
-                }
-            }
-            emitter.setCancellable { firebaseAuth.removeAuthStateListener(listener) }
-            firebaseAuth.addAuthStateListener(listener)
-        }
-    }
-
     private fun handleTask(task: Task<AuthResult>, emitter: SingleEmitter<T>) {
         task.addOnCompleteListener(backgroundExecutor, OnCompleteListener {
             if (it.isSuccessful) {
-                emitter.onSuccess(userFactory.createUser(it.result.user))
+                emitter.onSuccess(userMapper.map(it.result.user))
             } else {
                 emitter.onError(it.exception ?: AssertionError())
             }
@@ -76,7 +63,7 @@ class FirebaseAuthClient<T>(private val userFactory: UserFactory<T>) : AuthClien
     override fun signOut(): Single<T> {
         val currentUser = firebaseAuth.currentUser
                 ?: return Single.error(IllegalStateException("User is not signed in!"))
-        val user = userFactory.createUser(currentUser)
+        val user = userMapper.map(currentUser)
         return Single.create { emitter ->
             firebaseAuth.addAuthStateListener(object : FirebaseAuth.AuthStateListener {
                 override fun onAuthStateChanged(firebaseAuth: FirebaseAuth) {

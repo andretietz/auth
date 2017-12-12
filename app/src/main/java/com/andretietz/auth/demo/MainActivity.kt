@@ -13,7 +13,10 @@ import com.andretietz.auth.demo.model.User
 import dagger.android.support.DaggerAppCompatActivity
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
-import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.activity_main.buttonSignIn
+import kotlinx.android.synthetic.main.activity_main.progressBar
+import kotlinx.android.synthetic.main.activity_main.rootView
+import kotlinx.android.synthetic.main.activity_main.spinnerProviders
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -54,6 +57,7 @@ class MainActivity : DaggerAppCompatActivity() {
     private fun signIn(credential: AuthCredential) {
         progressBar.visibility = View.VISIBLE
         buttonSignIn.isEnabled = false
+//        client.signUp(credential)
         client.signIn(credential)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -71,6 +75,7 @@ class MainActivity : DaggerAppCompatActivity() {
                         Snackbar.make(rootView, it, Snackbar.LENGTH_LONG).show()
                     }
                     Timber.e(error)
+                    buttonSignIn.isEnabled = true
                 })
     }
 
