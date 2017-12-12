@@ -1,18 +1,18 @@
 package com.andretietz.auth.demo
 
-import com.andretietz.auth.back4app.UserFactory
+import com.andretietz.auth.ResultMapper
 import com.andretietz.auth.demo.model.User
 import com.parse.ParseUser
 import javax.inject.Inject
 
 
-class Back4AppUserFactory @Inject constructor() : UserFactory<User> {
-    override fun createUser(parseUser: ParseUser): User {
+class Back4AppUserFactory @Inject constructor() : ResultMapper<ParseUser, User> {
+    override fun map(clientResult: ParseUser): User {
         return User(
-                parseUser.objectId,
-                parseUser.email,
+                clientResult.objectId,
+                clientResult.email,
                 null,
-                parseUser.username ?: parseUser.email ?: "User",
+                clientResult.username ?: clientResult.email ?: "User",
                 null
         )
     }
