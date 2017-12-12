@@ -41,6 +41,7 @@ dependencies {
 
     back4appImplementation project(":client-back4app")
     back4appImplementation project(":provider-email")
+    back4appImplementation project(':provider-twitter')
 
     firebaseImplementation project(':client-firebase')
     firebaseImplementation project(':provider-google')

@@ -19,8 +19,8 @@ import io.reactivex.Maybe
 
 class TwitterCredentialProvider(
         private val activity: AppCompatActivity,
-        consumerKey: String,
-        consumerSecret: String
+        private val consumerKey: String,
+        private val consumerSecret: String
 ) : AndroidCredentialProvider {
 
     private val client: TwitterAuthClient
@@ -37,7 +37,14 @@ class TwitterCredentialProvider(
         return Maybe.create<AuthCredential> { emitter ->
             client.authorize(activity, object : Callback<TwitterSession>() {
                 override fun success(result: Result<TwitterSession>) {
-                    emitter.onSuccess(TwitterCredential(result.data.authToken.token, result.data.authToken.secret))
+                    emitter.onSuccess(TwitterCredential(
+                            consumerKey,
+                            consumerSecret,
+                            result.data.userName,
+                            result.data.userId.toString(),
+                            result.data.authToken.token,
+                            result.data.authToken.secret
+                    ))
                 }
 
                 override fun failure(exception: TwitterException?) {

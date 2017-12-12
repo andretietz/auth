@@ -24,6 +24,6 @@ dependencies {
     api project(':credential-email')
 //    api project(':credential-google')
 //    api project(':credential-facebook')
-//    api project(':credential-twitter')
+    api project(':credential-twitter')
 }
 apply from: rootProject.file('gradle/publish.gradle')

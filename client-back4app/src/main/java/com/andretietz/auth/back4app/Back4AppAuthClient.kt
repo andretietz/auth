@@ -77,8 +77,9 @@ class Back4AppAuthClient<RESULT>(
                     }
                 })
                 return@create
+            } else {
+                emitter.onSuccess(resultMapper.map(Back4AppCredentialMapper.map(credential).result))
             }
-            emitter.onError(IllegalStateException("Unsupported credential type: ${credential.type()}"))
         }
     }
 
