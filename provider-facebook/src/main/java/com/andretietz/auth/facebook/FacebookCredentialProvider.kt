@@ -34,7 +34,9 @@ class FacebookCredentialProvider(
 
                 override fun onSuccess(loginResult: LoginResult) {
                     if (emitter.isDisposed) return
-                    emitter.onSuccess(FacebookCredential(loginResult.accessToken.token))
+                    emitter.onSuccess(FacebookCredential(
+                            loginResult.accessToken.applicationId,
+                            loginResult.accessToken.token))
                 }
             })
         }.doOnSubscribe {

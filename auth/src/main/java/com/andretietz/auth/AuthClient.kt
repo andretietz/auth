@@ -8,6 +8,4 @@ interface AuthClient<RESULT> {
     fun signUp(credential: AuthCredential): Single<RESULT>
     fun signIn(credential: AuthCredential): Single<RESULT>
     fun signOut(): Single<RESULT>
-
-    data class State<out RESULT>(val user: RESULT?)
 }
