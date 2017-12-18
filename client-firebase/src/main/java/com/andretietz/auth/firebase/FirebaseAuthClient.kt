@@ -49,20 +49,6 @@ class FirebaseAuthClient<T>(private val userFactory: UserFactory<T>) : AuthClien
         }
     }
 
-    override fun signInState(): Observable<AuthClient.State<T>> {
-        return Observable.create { emitter ->
-            val listener = FirebaseAuth.AuthStateListener { firebaseAuth ->
-                if (firebaseAuth.currentUser == null) {
-                    emitter.onNext(AuthClient.State(null))
-                } else {
-                    emitter.onNext(AuthClient.State(userFactory.createUser(firebaseAuth.currentUser!!)))
-                }
-            }
-            emitter.setCancellable { firebaseAuth.removeAuthStateListener(listener) }
-            firebaseAuth.addAuthStateListener(listener)
-        }
-    }
-
     private fun handleTask(task: Task<AuthResult>, emitter: SingleEmitter<T>) {
         task.addOnCompleteListener(backgroundExecutor, OnCompleteListener {
             if (it.isSuccessful) {
